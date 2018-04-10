@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .esri-view .esri-directions {
+        position: fixed;
+        right: 15px;
+    }
+
+    .esri-view .esri-component.esri-attribution {
+        position: fixed;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.6/"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Locate",
+            "esri/layers/CSVLayer",
+            "esri/widgets/Directions",
+            "dojo/domReady!"
+
+        ], function(Map, MapView, FeatureLayer, Locate, CSVLayer, Directions) {
+            var hospSymbol = {
+                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                url: "https://www.shareicon.net/data/2015/11/01/665295_medical_512x512.png",
+                width: "30px",
+                height: "35px"
+            }
+            var housingLyr = new FeatureLayer({
+                portalItem: {
+                    id: "3abd8c6a6de848e29959d64f9e4dadac"
+                }
+            });
+            housingLyr.renderer = {
+                type: "simple", // autocasts as new SimpleRenderer()
+                symbol: hospSymbol
+            };
+            var template = {
+                title: "Accident: {name} 04-08-2018 @ {clock}",
+                content: "Long: {longitude} Lat: {latitude}"
+            };
+            var crashSymbol = {
+                type: "picture-marker", // autocasts as new PictureMarkerSymbol()
+                url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Slovenia_road_sign_I-41.svg/256px-Slovenia_road_sign_I-41.svg.png",
+                width: "25px",
+                height: "25px"
+            }
+
+            var crashLyr = new CSVLayer({
+                url: "/csv",
+                popupTemplate: template,
+                elevationInfo: {
+                    mode: "on-the-ground"
+                }
+            });
+            crashLyr.renderer = {
+                type: "simple", // autocasts as new SimpleRenderer()
+                symbol: crashSymbol
+            };
+
+            var map = new Map({
+                basemap: "streets",
+                layers: [housingLyr],
+                padding: {
+                    right: 330
+                }
+            });
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                zoom: 15, // Sets zoom level based on level of detail (LOD)
+                center: [-76.9415, 38.9955] // Sets center point of view using longitude,latitude
+            });
+
+            map.add(crashLyr);
+            var directions = new Directions({
+                view: view
+            });
+            view.ui.add(directions, "top-right");
+
+
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+
+
+    <title>Explore US Representatives</title>
+</head>
+<div class="main_nav">
+    <!-- You should insert the nav bar here!
+	Remember that you can hard code the links for each entry
+	beacause it doesn't change depending on the page we are on.
+	Otherwise, we would have to use a partial.
+
+	Also, feel free to go into public/css/ and add a 'nav' class to
+	the file.
+-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Close Call</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="#navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home</a>
+                <a class="nav-item nav-link" href="/about">About</a>
+                <a class="nav-item nav-link" href="/accidents">Data</a>
+            </div>
+        </div>
+    </nav>
+
+
+
+</div>
+
+<body>
+    {{{body}}}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://js.arcgis.com/4.6/"></script>
+</body>
+
+
+
+</html>

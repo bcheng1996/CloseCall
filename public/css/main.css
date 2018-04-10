@@ -1,0 +1,38 @@
+.representatives{
+    margin-left: 20px;
+}
+
+.header{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.body{
+    margin-left: 10px;
+}
+
+html, body, #viewDiv{
+   padding: 0;
+   margin: 0;
+   height: 100%;
+   width: 100%;
+}
+
+#viewDiv{
+    width:100%;
+    float:right;
+}
+
+
+.buttonDiv{
+    width: 20%;
+    float: left;
+}
+.buttonDiv li{
+    margin-bottom: 10px;
+}
+
+.buttonDiv li:hover{
+    color:blue;
+}
